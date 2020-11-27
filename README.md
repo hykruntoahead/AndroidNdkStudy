@@ -100,6 +100,7 @@ Hello World from CMake!
 
 #### 5.1 project 指令
 语法: project([CXX][C][Java])
+
 这个指令是定义工程名称的，并且可以指定工程支持的语言（当然也可以忽略，默认情况表示支持所有语言），**不是强制定义的**。
 例如：project(HELLO)  
 
@@ -113,6 +114,7 @@ Hello World from CMake!
 
 #### 5.2 set 指令
 语法:set(VAR [VALUE])
+
 这个指令是用来显式地定义变量，多个变量用空格或分号隔开
 例如：
 ```cmake
@@ -125,6 +127,7 @@ set(SRC_LIST main.c test.c)
 
 #### 5.3 message 指令
 语法：message([SEND_ERROR | STATUS | FATAL_ERROR] “message to display” … )
+
 这个指令用于向终端输出用户定义的信息，包含了三种类型：
 - SEND_ERROR，产生错误，生成过程被跳过；
 - STATUS，输出前缀为—-的信息；（由上面例子也可以看到会在终端输出相关信息）
@@ -132,6 +135,7 @@ set(SRC_LIST main.c test.c)
 
 #### 5.4 add_executable　指令
 语法：add_executable(executable_file_name [source])
+
 将一组源文件 source 生成一个可执行文件。 source 可以是多个源文件，也可以是对应定义的变量
 如：
 ```
@@ -154,6 +158,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
 #### 5.7 add_library 指令
 语法：add_library(libname [SHARED | STATIC | MODULE] [EXCLUDE_FROM_ALL] [source])
+
 将一组源文件 source 编译出一个库文件，并保存为 libname.so (lib 前缀是生成文件时 CMake自动添加上去的)。其中有三种库文件类型，
 **不写的话，默认为 STATIC**: 
 - SHARED: 表示动态库，可以在(Java)代码中使用 System.loadLibrary(name) 动态调用；
@@ -176,6 +181,7 @@ add_library(libjpeg SHARED IMPORTED)
 
 #### 5.8 find_library　指令
 语法：find_library( name1 path1 path2 …)
+
 VAR 变量表示找到的库全路径，包含库文件名 。例如：
 ``` 
 find_library(libX  X11 /usr/lib)
@@ -184,6 +190,7 @@ find_library(log-lib log)  #路径为空，应该是查找系统环境变量路�
 
 #### 5.9 set_target_properties 指令
 语法: set_target_properties(target1 target2 … PROPERTIES prop1 value1 prop2 value2 …)
+
 这条指令可以用来设置输出的名称（设置构建同名的动态库和静态库，或者指定要导入的库文件的路径），对于动态库，
 还可以用来指定动态库版本和 API 版本。
 如，set_target_properties(hello_static PROPERTIES OUTPUT_NAME “hello”)
@@ -213,6 +220,7 @@ message(STATUS "this is the hello_static OUTPUT_NAME:"${OUTPUT_VALUE})
 
 #### 6.10 include_directories 指令
 语法：include_directories([AFTER | BEFORE] [SYSTEM] dir1 dir2…)
+
 这个指令可以用来向工程添加多个特定的头文件搜索路径，路径之间用空格分割，如果路径中包含了空格，可以使用双引号将它括起来，
 默认的行为是追加到当前的头文件搜索路径的后面。
 
