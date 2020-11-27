@@ -126,14 +126,17 @@ set(SRC_LIST main.c test.c)
 #### 5.3 message 指令
 语法：message([SEND_ERROR | STATUS | FATAL_ERROR] “message to display” … )
 这个指令用于向终端输出用户定义的信息，包含了三种类型：
-SEND_ERROR，产生错误，生成过程被跳过；
-STATUS，输出前缀为—-的信息；（由上面例子也可以看到会在终端输出相关信息）
-FATAL_ERROR，立即终止所有 CMake 过程；
+- SEND_ERROR，产生错误，生成过程被跳过；
+- STATUS，输出前缀为—-的信息；（由上面例子也可以看到会在终端输出相关信息）
+- FATAL_ERROR，立即终止所有 CMake 过程；
 
 #### 5.4 add_executable　指令
 语法：add_executable(executable_file_name [source])
 将一组源文件 source 生成一个可执行文件。 source 可以是多个源文件，也可以是对应定义的变量
-如：add_executable(hello main.c)
+如：
+```
+add_executable(hello main.c)
+```
 
 #### 5.5 cmake_minimun_required(VERSION 3.4.1)
 用来指定 CMake 最低版本为3.4.1，如果没指定，执行 cmake 命令时可能会出错
@@ -144,8 +147,10 @@ FATAL_ERROR，立即终止所有 CMake 过程；
 EXCLUDE_FROM_ALL参数含义是将这个目录从编译过程中排除。
 
 另外，也可以通过 SET 指令重新定义 EXECUTABLE_OUTPUT_PATH 和 LIBRARY_OUTPUT_PATH 变量来指定最终的目标二进制的位置(指最终生成的 hello 或者最终的共享库，不包含编译生成的中间文件)
+```
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+```
 
 #### 5.7 add_library 指令
 语法：add_library(libname [SHARED | STATIC | MODULE] [EXCLUDE_FROM_ALL] [source])
