@@ -237,3 +237,47 @@ target_link_libraries(compress libjpeg ${log-lib})
 同样，link_directories(directory1 directory2 …) 可以添加非标准的共享库搜索路径。
 
 还有其他 file、list、install 、find_ 指令和控制指令等就不介绍了，详细可以查看手册。
+
+### 6.CMake的常用变量
+#### 6.1 变量引用方式
+使用 ${} 进行变量的引用。不过在 IF 等语句中，可以直接使用变量名而不用通过 ${} 取值
+#### 6.2 自定义变量的方式
+主要有**隐式定义**和**显式定义**两种。隐式定义，如 PROJECT 指令会隐式定义_BINARY_DIR 和 _SOURCE_DIR
+而对于显式定义就是通过 SET 指令来定义。如：set(HELLO_SRC main.c)
+#### 6.3 CMake 常用变量
+- 1）CMAKE_BINARY_DIR, PROJECT_BINARY_DIR, _BINARY_DIR  
+    这三个变量指代的内容都是一样的，如果是 in-source 编译，指的是工程顶层目录，如果是 out-of-source 编译，
+  指的是工程编译发生的目录。
+ 
+- 2) CMAKE_SOURCE_DIR, PROJECT_SOURCE_DIR, _SOURCE_DIR  
+     这三个变量指代的内容也是一样的，不论哪种编译方式，都是工程顶层目录。
+     
+- 3) CMAKE_CURRENT_SOURCE_DIR  
+     当前处理的 CMakeLists.txt 所在的路径
+  
+- 4) CMAKE_CURRENT_BINARY_DIR  
+     如果是 in-source 编译，它跟 CMAKE_CURRENT_SOURCE_DIR 一致，如果是 out-of-source 编译，指的是 target 
+     编译目录。  
+     使用 ADD_SUBDIRECTORY(src bin)可以修改这个变量的值；   
+     而使用 SET(EXECUTABLE_OUTPUT_PATH < 新路径>) 并不会对这个变量造成影响，它仅仅修改了最终目标文件存放的路径。
+
+- 5）CMAKE_CURRENT_LIST_FILE  
+    输出调用这个变量的 CMakeLists.txt 的完整路径  
+
+- 6) CMAKE_CURRENT_LIST_LINE  
+    输出这个变量所在的行 
+
+- 7) CMAKE_MODULE_PATH  
+     这个变量用来定义自己的 CMake 模块所在的路径。如果你的工程比较复杂，有可能会自己   
+     编写一些 cmake 模块，这些 cmake 模块是随你的工程发布的，为了让 cmake 在处理   
+     CMakeLists.txt 时找到这些模块，你需要通过 SET 指令，将自己的 cmake 模块路径设  
+     置一下。  
+     
+     比如 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+     这时候你就可以通过 INCLUDE 指令来调用自己的模块了。  
+
+- 8) EXECUTABLE_OUTPUT_PATH 和 LIBRARY_OUTPUT_PATH  
+     分别用来重新定义最终结果的存放目录，前面我们已经提到了这两个变量。
+
+- 9) PROJECT_NAME  
+      返回通过 PROJECT 指令定义的项目名称。
