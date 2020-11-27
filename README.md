@@ -147,6 +147,7 @@ add_executable(hello main.c)
 
 #### 5.6 add_subdirectory 指令
 语法：add_subdirectory(source_dir [binary_dir] [EXCLUDE_FROM_ALL])
+
 这个指令用于向当前工程添加存放源文件的子目录，并可以指定中间二进制和目标二进制存放的位置。
 EXCLUDE_FROM_ALL参数含义是将这个目录从编译过程中排除。
 
@@ -226,6 +227,7 @@ message(STATUS "this is the hello_static OUTPUT_NAME:"${OUTPUT_VALUE})
 
 #### 6.11 target_link_libraries 指令
 语法：target_link_libraries(target library library2…)
+
 这个指令可以用来为 target 添加需要的链接的共享库，同样也可以用于为自己编写的共享库添加共享库链接。
 如:
 ```cmake
