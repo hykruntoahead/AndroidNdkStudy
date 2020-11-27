@@ -246,7 +246,7 @@ target_link_libraries(compress libjpeg ${log-lib})
 而对于显式定义就是通过 SET 指令来定义。如：set(HELLO_SRC main.c)
 #### 6.3 CMake 常用变量
 
-1) CMAKE_BINARY_DIR, PROJECT_BINARY_DIR, _BINARY_DIR  
+- CMAKE_BINARY_DIR, PROJECT_BINARY_DIR, _BINARY_DIR  
   这三个变量指代的内容都是一样的，如果是 in-source 编译，指的是工程顶层目录，如果是 out-of-source 编译，
   指的是工程编译发生的目录
   
