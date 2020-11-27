@@ -114,7 +114,11 @@ Hello World from CMake!
 #### 5.2 set 指令
 语法:set(VAR [VALUE])
 这个指令是用来显式地定义变量，多个变量用空格或分号隔开
-例如：set(SRC_LIST main.c test.c)
+例如：
+```cmake
+set(SRC_LIST main.c test.c)
+
+```
 
 注意，当需要用到定义的 SRC_LIST 变量时，需要用${var}的形式来引用，如：${SRC_LIST}
 不过，在 IF 控制语句中可以直接使用变量名。
