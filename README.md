@@ -37,6 +37,7 @@ path-to-source和path-to-existing-build二选一，分别表示 CMakeLists.txt �
     cmake ..表示构建上一级目录下 CMakeLists.txt 的配置，并在当前目录下生成 Makefile 等文件；
     cmake [参数] [指定进行编译的目录或存放Makefile文件的目录] [指定CMakeLists.txt文件所在的目录] 【属于外部构建】
 
-**内部构建（in-source build）与外部构建（out-of-source build）**
+**内部构建（in-source build）与外部构建（out-of-source build）**  
+
 内部构建生成的临时文件可能比源代码还要多，非常影响工程的目录结构和可读性。   
 **Make官方建议使用外部构建，外部构建可以达到将生成中间产物与源代码分离。**
