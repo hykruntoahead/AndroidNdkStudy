@@ -1,0 +1,5 @@
+include_directories(${HELLO_SOURCE_DIR}/libhello)
+message(STATUS "root dir is" ${HELLO_SOURCE_DIR})
+set(APP_SRC main.c)
+add_executable(hello ${APP_SRC})
+target_link_libraries(hello libhello)
