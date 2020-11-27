@@ -1,0 +1,5 @@
+PROJECT(HELLO)
+SET(SRC_LIST main.c)
+message(status "This is BINARY dir" ${HELLO_BINARY_DIR})
+message(status "This is SOURCE dir" ${HELLO_SOURCE_DIR})
+ADD_EXECUTABLE(hello ${SRC_LIST})
