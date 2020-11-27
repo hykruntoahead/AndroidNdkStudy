@@ -284,3 +284,82 @@ target_link_libraries(compress libjpeg ${log-lib})
       返回通过 PROJECT 指令定义的项目名称。
       
 小练习来巩固下，参考下：[cmake_demo](https://github.com/hykruntoahead/AndroidNdkStudy/tree/master/CMake/cmake_demo)
+
+### 7 Android CMake　使用
+#### 7.1 CMakeList.txt 编写
+回归到Android NDK 开发中　CMake的使用，先看一个系统生成的NDK项目的CMakeLists.txt(去掉注释):
+```cmake
+#设置编译 native library 需要最小的 cmake 版本
+cmake_minimum_required(VERSION 3.4.1)
+#将指定的源文件编译为名为 libnative-lib.so 的动态库
+add_library(native-lib SHARED src/main/cpp/native-lib.cpp)
+#查找本地 log 库
+find_library(log-lib log)
+#将预构建的库添加到自己的原生库
+target_link_libraries(native-lib ${log-lib} )
+```
+复杂一点的 CMakeLists，这是一个本地使用 libjpeg.so 来做图片压缩的项目
+```cmake
+cmake_minimum_required(VERSION 3.4.1)
+#设置生成的so动态库最后输出的路径
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/src/main/jniLibs/${ANDROID_ABI})
+#指定要引用的libjpeg.so的头文件目录
+set(LIBJPEG_INCLUDE_DIR src/main/cpp/include)
+include_directories(${LIBJPEG_INCLUDE_DIR})
+#导入libjpeg动态库 SHARED；静态库为STATIC
+add_library(jpeg SHARED IMPORTED)
+#对应so目录，注意要先 add_library，再 set_target_properties）
+set_target_properties(jpeg PROPERTIES IMPORTED_LOCATION ${PROJECT_SOURCE_DIR}/libs/${ANDROID_ABI}/libjpeg.so)
+add_library(compress SHARED src/main/cpp/compress.c)
+find_library(graphics jnigraphics)
+find_library(log-lib log)
+#添加链接上面个所 find 和 add 的 library
+target_link_libraries(compress jpeg ${log-lib} ${graphics})
+```
+
+#### 7.2　配置Gradle
+简单的配置如下，至于 cppFlags 或 cFlags 的参数有点复杂，一般设置为空或不设置也是可以的，这里就不过多介绍了：
+```cmake
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        externalNativeBuild {
+            cmake {
+                // Passes optional arguments to CMake.
+                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_TOOLCHAIN=clang"
+                // Sets optional flags for the C compiler.
+                cFlags "-D_EXAMPLE_C_FLAG1", "-D_EXAMPLE_C_FLAG2"
+                // Sets a flag to enable format macro constants for the C++ compiler.
+                cppFlags "-D__STDC_FORMAT_MACROS"
+                //生成.so库的目标平台
+                abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a',
+                   'arm64-v8a'
+            }
+        }
+    }
+	  //配置 CMakeLists.txt 路径
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+}
+```
+
+对于 CMake 的知识点其实还是有很多的，这里只是简单介绍了 CMake 的基本语法规则和使用方法，了解了这些，
+遇到问题应该也能快速定位到原因，找出解决的版本，就算不记得一些指令，也通过查找文档解决。能达到这种程度，
+对于 Android NDK 开发来说，掌握这些也足够应付日常开发了．
+
+**扩展**
+make makefile cmake qmake都是什么，有什么区别?
+make用来执行Makefile；Makefile是类unix环境下(比如Linux)的类似于批处理的”脚本”文件；  
+cmake是跨平台项目管理工具，它用更抽象的语法来组织项目，是一个项目管理工具，是用来执行CMakeLists.txt；  
+qmake是Qt专用的项目管理工具，用来处理*.pro工程文件。  
+
+Makefile的抽象层次最低，cmake和qmake在Linux等环境下最后还是会生成一个Makefile。cmake和qmake支持跨平台，  
+cmake的做法是生成指定编译器的工程文件，而qmake完全自成体系。
