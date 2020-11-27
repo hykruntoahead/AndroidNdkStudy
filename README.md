@@ -33,11 +33,59 @@ options 的值，可以通过输入cmake --help 查看，比如：
 
 path-to-source和path-to-existing-build二选一，分别表示 CMakeLists.txt 所在的路径和一个已存在的构建工程的目录
 
-    cmake .表示构建当前目录下 CMakeLists.txt 的配置，并在当前目录下生成 Makefile 等文件；【属于内部构建】
-    cmake ..表示构建上一级目录下 CMakeLists.txt 的配置，并在当前目录下生成 Makefile 等文件；
-    cmake [参数] [指定进行编译的目录或存放Makefile文件的目录] [指定CMakeLists.txt文件所在的目录] 【属于外部构建】
+cmake .表示构建当前目录下 CMakeLists.txt 的配置，并在当前目录下生成 Makefile 等文件；【属于内部构建】
+cmake ..表示构建上一级目录下 CMakeLists.txt 的配置，并在当前目录下生成 Makefile 等文件；
+cmake [参数] [指定进行编译的目录或存放Makefile文件的目录] [指定CMakeLists.txt文件所在的目录] 【属于外部构建】
 
 **内部构建（in-source build）与外部构建（out-of-source build）**  
 
 内部构建生成的临时文件可能比源代码还要多，非常影响工程的目录结构和可读性。   
 **Make官方建议使用外部构建，外部构建可以达到将生成中间产物与源代码分离。**
+
+### 3 Hello CMake
+
+ 注:Ubuntu平台下
+ ```shell script
+apt install cmake
+...
+cmake -version #检验是否安装　显示cmake版本号
+```
+创建CMake/t1　目录,编写main.c 和 CMakeLists.txt文件
+
+```  
+#include <stdio.h>
+int main()
+{
+    printf(“Hello World from CMake!\n”);
+    return 0;
+}
+```
+
+```cmake
+PROJECT(HELLO)
+SET(SRC_LIST main.c)
+MESSAGE(STATUS "This is BINARY dir " ${HELLO_BINARY_DIR})  #终端打印的信息
+MESSAGE(STATUS "This is SOURCE dir "${HELLO_SOURCE_DIR})
+ADD_EXECUTABLE(hello ${SRC_LIST})
+```
+
+这里如果直接输入cmake .开始构建，属于内部构建。建议采用外部构建的方法，先建一个 build 文件夹，
+进入 build 文件夹在执行cmake ..。构建后出现很多 log 包含以下，说明构建成功，并且目录下会生成
+CMakeFiles, CMakeCache.txt, cmake_install.cmake, Makefile 等文件
+```
+-- This is BINARY dir /Users/cfanr/AndroidStudioProjects/NDK/CMake/t1
+-- This is SOURCE dir /Users/cfanr/AndroidStudioProjects/NDK/CMake/t1
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/cfanr/AndroidStudioProjects/NDK/CMake/t1
+```
+然后执行make命令,会生成 main.c 对应的可执行文件hello，并会出现以下彩色的 log
+```
+[ 50%] Building C object CMakeFiles/hello.dir/main.c.o
+[100%] Linking C executable hello
+[100%] Built target hello
+```
+最后执行 ./hello 会打印输出：
+``` 
+Hello World from CMake!
+```
