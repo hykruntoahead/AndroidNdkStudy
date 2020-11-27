@@ -281,3 +281,5 @@ target_link_libraries(compress libjpeg ${log-lib})
 
 - 9) PROJECT_NAME  
       返回通过 PROJECT 指令定义的项目名称。
+      
+小练习来巩固下，参考下：
