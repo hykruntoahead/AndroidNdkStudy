@@ -356,7 +356,8 @@ android {
 对于 Android NDK 开发来说，掌握这些也足够应付日常开发了．
 
 **扩展**
-make makefile cmake qmake都是什么，有什么区别?
+make makefile cmake qmake都是什么，有什么区别?  
+
 make用来执行Makefile；Makefile是类unix环境下(比如Linux)的类似于批处理的”脚本”文件；  
 cmake是跨平台项目管理工具，它用更抽象的语法来组织项目，是一个项目管理工具，是用来执行CMakeLists.txt；  
 qmake是Qt专用的项目管理工具，用来处理*.pro工程文件。  
