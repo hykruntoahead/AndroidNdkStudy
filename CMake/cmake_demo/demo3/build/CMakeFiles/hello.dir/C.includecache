@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/CMake/cmake_demo/demo3/hello.h
+
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/CMake/cmake_demo/demo3/main.c
+hello.h
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/CMake/cmake_demo/demo3/hello.h
+

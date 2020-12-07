@@ -1,0 +1,1 @@
+/usr/bin/cc     CMakeFiles/hello.dir/main.c.o  -o ../bin/hello ../lib/libhello.so -Wl,-rpath,/home/hyk/AndroidStudioProjects/AndroidNdkStudy/CMake/cmake_demo/demo6/build/lib 

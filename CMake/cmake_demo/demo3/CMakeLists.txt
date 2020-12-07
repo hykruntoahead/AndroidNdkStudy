@@ -7,4 +7,4 @@ add_library(libhello ${LIB_SRC})
 add_executable(hello ${APP_SRC})
 # 添加共享库链接
 target_link_libraries(hello libhello)
-set_target_properties(libhello PROPERTIES OUTPUT_NAME "hello")
+set_target_properties(libhello PROPERTIES OUTPUT_NAME "hello1")
