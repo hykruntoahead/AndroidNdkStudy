@@ -364,3 +364,13 @@ qmake是Qt专用的项目管理工具，用来处理*.pro工程文件。
 
 Makefile的抽象层次最低，cmake和qmake在Linux等环境下最后还是会生成一个Makefile。cmake和qmake支持跨平台，  
 cmake的做法是生成指定编译器的工程文件，而qmake完全自成体系。
+
+
+## C程序设计语言
+### 导言
+
+- 变量与算术表达式
+- for语句
+- 符号常量
+- 字符输入/输出
+- 
