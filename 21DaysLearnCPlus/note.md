@@ -210,3 +210,33 @@ int firstNumber = 0;
 > double pi = 3.141'592'653'59; // 3.14159265359 
 
 ### 3.3 使用 sizeof 确定变量的长度
+   变量长度指的是程序员声明变量时，编译器将预留多少内存，用于存储赋给该变量的数据。变量
+的长度随类型而异，C++提供了一个方便的运算符—sizeof，可用于确定变量的长度（单位为字节）
+或类型。
+    
+**使用列表初始化避免缩窄转换错误**
+   使用取值范围较大的变量来初始化取值范围较小的变量时，将面临出现缩窄转换错误的风险，因
+为编译器必须将大得多的值存储到容量没那么大的变量中，下面是一个这样的示例：
+int largeNum = 5000000; 
+short smallNum = largeNum; // compiles OK, yet narrowing error 
+   
+   
+### 3.4 使用 auto 自动推断类型
+   
+### 3.5 使用 typedef 替换变量类型
+
+   ```
+   typedef unsigned int STRICTLY_POSITIVE_INTEGER; 
+   STRICTLY_POSITIVE_INTEGER numEggsInBasket = 4532; 
+   ```
+
+### 3.6 什么是常量
+   在 C++中，常量可以是：
+   • 字面常量；
+   • 使用关键字 **const** 声明的常量；
+   • 使用关键字 **constexpr** 声明的常量表达式（C++11 新增的）；
+   • 使用关键字 **enum** 声明的枚举常量；
+   • 使用#define 定义的常量（已摒弃，不推荐）。
+   
+   
+   
