@@ -236,7 +236,7 @@ short smallNum = largeNum; // compiles OK, yet narrowing error
    - 使用关键字 **const** 声明的常量；
    - 使用关键字 **constexpr** 声明的常量表达式（C++11 新增的）；
    - 使用关键字 **enum** 声明的枚举常量；
-   - 使用#define 定义的常量（已摒弃，不推荐）。
+   - 使用**#define**定义的常量（已摒弃，不推荐）。
    
    
    
