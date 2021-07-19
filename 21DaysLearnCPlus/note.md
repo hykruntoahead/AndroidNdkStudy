@@ -239,4 +239,34 @@ short smallNum = largeNum; // compiles OK, yet narrowing error
    - 使用**#define**定义的常量（已摒弃，不推荐）。
    
    
+## 4.管理数组和字符串   
+   - 数组是一系列元素；
+   - 数组中所有元素的类型都相同；
+   - 这组元素形成一个完整的集合。
+在 C++中，数组让您能够按顺序将一系列相同类型的数据存储到内存中.
    
+### 4.1.1 为何需要数组
+   
+### 4.1.2 声明和初始化静态数组
+   
+- int myNumbers [5] = {34, 56, -21, 5002, 365};
+- int myNumbers [5] = {}; // initializes all integers to 0 
+- int myNumbers [5] = {34, 56}; // initialize first two elements to 34 and 56 and the rest to 0 
+- const int ARRAY_LENGTH = 5; 
+  int myNumbers [ARRAYLENGTH] = {34, 56, -21, 5002, 365};
+- int myNumbers [] = {2016, 2052, -525}; // array of 3 elements 
+   
+### 4.1.3 数组中的数据是如何存储的
+> 一般而言，编译器为数组预留的内存量如下所示（单位为字节）：
+Bytes consumed by an array = sizeof(element-type) * Number of Elements
+   
+### 4.1.4 访问存储在数组中的数据
+    myNumbers [0] //0 - len-1
+   
+### 4.1.5 修改存储在数组中的数据
+   myNumbers [3] = 2016; 
+
+## 4.2　多维数组 
+
+   
+
