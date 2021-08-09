@@ -244,10 +244,10 @@ short smallNum = largeNum; // compiles OK, yet narrowing error
    - 数组中所有元素的类型都相同；
    - 这组元素形成一个完整的集合。
 在 C++中，数组让您能够按顺序将一系列相同类型的数据存储到内存中.
+### 4.1 一维数组   
+#### 4.1.1 为何需要数组
    
-### 4.1.1 为何需要数组
-   
-### 4.1.2 声明和初始化静态数组
+#### 4.1.2 声明和初始化静态数组
    
 - int myNumbers [5] = {34, 56, -21, 5002, 365};
 - int myNumbers [5] = {}; // initializes all integers to 0 
@@ -256,17 +256,42 @@ short smallNum = largeNum; // compiles OK, yet narrowing error
   int myNumbers [ARRAYLENGTH] = {34, 56, -21, 5002, 365};
 - int myNumbers [] = {2016, 2052, -525}; // array of 3 elements 
    
-### 4.1.3 数组中的数据是如何存储的
+#### 4.1.3 数组中的数据是如何存储的
 > 一般而言，编译器为数组预留的内存量如下所示（单位为字节）：
 Bytes consumed by an array = sizeof(element-type) * Number of Elements
    
-### 4.1.4 访问存储在数组中的数据
+#### 4.1.4 访问存储在数组中的数据
     myNumbers [0] //0 - len-1
    
-### 4.1.5 修改存储在数组中的数据
+#### 4.1.5 修改存储在数组中的数据
    myNumbers [3] = 2016; 
 
-## 4.2　多维数组 
+### 4.2　多维数组 
 
+#### 4.2.1 声明和初始化多维数组
    
+   int solarPanels [2][3] = {{0, 1, 2}, {3, 4, 5}}; 
 
+#### 4.2.2 访问多维数组中的元素
+   
+   可将多维数组视为由数组组成的数组。
+
+```
+   int threeRowsThreeColumns [3][3] = {{-501, 205, 2016}, {989, 101, 206}, {303, 456, 596}}; 
+   //访问
+   int num = threeRowsThreeColumns [0][1] 
+```
+   
+### 4.3 动态数组
+   。C++提供了 std::vector，这是一种方便而易于使用的动态数组.(代码示例:见4.4.cpp)
+### 4.4 C 风格字符串
+   
+   char sayHello[] = {'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', 
+'\0'}; 
+   
+### 4.5 C++字符串：使用 std::string
+   
+   无论是处理文本输入，还是执行拼接等字符串操作，使用 C++标准字符串都是更高效、更安全的
+方式。不同于字符数组（C 风格字符串实现），std::string 是动态的，在需要存储更多数据时其容量将增
+大。
+   
