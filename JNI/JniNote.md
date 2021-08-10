@@ -101,7 +101,7 @@ add_library(jinInterface SHARED ${LIB_SRC})
 
 5）编写cmakelist.txt文件，编译生成动态/静态链接库
 
-
+![静态注册代码示例](https://github.com/hykruntoahead/AndroidNdkStudy/edit/master/JNI/register/staticReg/)
 
 
 
@@ -157,8 +157,12 @@ return JNI_VERSION_1_4;
 }
 ```
 
+注:RegisterNatives(mainActivityCls,mMethods,**3**);
+這個一定要与method数组长度匹配,否则出现以下错误日志:
 
+> # Failed to write core dump. Core dumps have been disabled. To enable core dumping, try "ulimit -c unlimited" before starting Java again.
 
+![动态注册代码示例](https://github.com/hykruntoahead/AndroidNdkStudy/edit/master/JNI/register/dynamicReg/)
 
 
 ### 3.3 system.load()/system.loadLibrary()区别
