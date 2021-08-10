@@ -1,0 +1,3 @@
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/register/staticReg/build/CMakeFiles/edit_cache.dir
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/register/staticReg/build/CMakeFiles/rebuild_cache.dir
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/register/staticReg/build/CMakeFiles/firstLib.dir
