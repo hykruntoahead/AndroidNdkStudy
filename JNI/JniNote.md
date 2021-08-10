@@ -113,6 +113,50 @@ add_library(jinInterface SHARED ${LIB_SRC})
 
 动态注册则意味着方法名可以不用这么长，会动态将java层与native方法一一绑定.
 
+```
+//Java:
+native void dynamicNative();
+native String dynamicNative(int i);
+//C++：
+void dynamicNative1(JNIEnv *env,jobject jobj){
+  LOGE("dynamicNative1 动态注册");
+}
+
+jstring dynamicNative2(JNIEnv *env,jobject jobj,jint i){
+return env->NewStringUTF("我是动态注册的 dynamicNative2 方法");
+}
+//需要动态注册的方法数组
+static const JNINativeMethod mMethods[]
+ =
+{ 
+{"dynamicNative","()V",
+(void*)dynamicNative1},
+{"dynamicNative","(I)Ljava/lang/String;",
+(jstring*)dynamicNative2}
+};
+
+// 需要动态注册
+native 方法的类名 
+static const char*mClassName = "com/dongnao/jnitest/MainActivity";
+jint JNI_OnLoad(JavaVM* vm, void* reserved){
+JNIEnv* env = NULL;
+//获得JniEnv
+int r = vm->GetEnv((void**)&env,JNI_VERSION_1_4);
+if(r!=JNI_OK){
+ return -1;
+}
+jclass mainActivityCls = env->FindClass(mClassName);
+
+//注册如果小于0则注册失败
+r= env->RegisterNatives(mainActivityCls,mMethods,3);
+if(r!=JNI_OK)
+{
+return -1;
+}
+return JNI_VERSION_1_4;
+}
+```
+
 
 
 
