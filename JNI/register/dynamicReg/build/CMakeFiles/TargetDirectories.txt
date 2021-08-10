@@ -1,0 +1,3 @@
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/register/dynamicReg/build/CMakeFiles/rebuild_cache.dir
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/register/dynamicReg/build/CMakeFiles/edit_cache.dir
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/register/dynamicReg/build/CMakeFiles/drLib.dir

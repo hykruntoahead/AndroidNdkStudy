@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/register/dynamicReg/DynamicRegister.c
+../staticReg/jni.h
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/register/staticReg/jni.h
+
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/register/staticReg/jni.h
+stdio.h
+-
+stdarg.h
+-
+jni_md.h
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/register/staticReg/jni_md.h
+
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/register/staticReg/jni_md.h
+
