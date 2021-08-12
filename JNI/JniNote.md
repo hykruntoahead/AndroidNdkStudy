@@ -186,3 +186,175 @@ System.loadLibrary参数为库文件名，不包含库文件的扩展名。
 System.loadLibrary ("TestJNI"); //加载Windows下的TestJNI.dll本地库System.loadLibrary ("TestJNI"); //加载Linux下的libTestJNI.so本地库
 
 注意：**TestJNI.dll或libTestJNI.so必须是在JVM属性java.library.path所指向的路径中。**
+
+
+
+## 4.JNIEnv类型和jobject类型的解释
+
+```
+JNIEXPORT void JNICALL Java_com_jni_demo_JNIDemo_sayHello
+(JNIEnv* env,jobject obj){
+   printf(hello);
+}
+```
+
+### 4.1  JNIEnv* env参数的解释
+
+JNIEnv类型实际上代表了Java环境，通过这个JNIEnv* 指针，就可以对Java端的代码进行操作。
+例如，创建Java类中的对象，调用Java对象的方法，获取Java对象中的属性等等。JNIEnv的指针
+会被JNI传入到本地方法的实现函数中来对Java端的代码进行操作。
+
+```
+#ifdef __cplusplus
+typedef JNIEnv_ JNIEnv;
+#else
+typedef const struct JNINativeInterface_ *JNIEnv;
+#endif
+......
+struct JNIInvokeInterface_;
+......
+struct JNINativeInterface_
+{
+  void *reserved0;
+  void *reserved1;
+  void *reserved2;
+  void *reserved3;
+  jint(JNICALL *GetVersion)(JNIEnv *env);
+//全是函数指针
+jclass (JNICALL *DefineClass)
+  (JNIEnv *env, const char *name,jobject loader,const jbyte *buf,
+  jsize len);
+
+jclass (JNICALL *FindClass)
+  (JNIEnv *env, const char *name);
+
+jmethodID (JNICALL *FromReflectedMethod)
+  (JNIEnv *env,jobject method);
+
+jfieldID (JNICALL *FromReflectedField)
+  (JNIEnv *env, jobject field);
+
+jobject (JNICALL *ToReflectedMethod)
+  (JNIEnv *env,jclass cls, jmethodID methodID,jbooleanisStatic);
+```
+
+### 4.2 参数jobject obj解释
+
+native 方法为非static普通方法：这个obj代表native方法的类实例
+native 方法为static：这个obj就代表这个native方法的类的class对象实例
+
+java 部分代码:
+
+```
+public native void test();
+public static native void testStatic();
+```
+
+jni .h部分代码:
+
+```
+JNIEXPORT void JNICALL Java_Hello_test
+(JNIEnv *, jobject);
+
+JNIEXPORT void JNICALL Java_Hello_testStatic
+(JNIEnv *, jclass);
+```
+
+## 5.C/C++ 代码调用java代码
+
+JNI中有一个非常重要的内容，那便是在C/C++本地代码中访问Java端的代码，
+一个常见的应用就是获取类的属性和调用类的方法，为了在C/C++中表示属性和方法，
+JNI在jni.h头文件中定义了jfieldId,jmethodID 类型来分别代表Java端的属性
+和方法。
+
+在访问，或者设置Java属性的时候，
+首先就要先在本地代码取得代表该Java属性的jfieldID,
+然后才能在本地代码中进行Java属性操作，
+同样的，我们需要呼叫Java端的方法时，也是需要取得代
+表该方法的jmethodID才能进行Java方法调用。
+使用JNIEnv的：
+GetFieldID/GetMethodID
+GetStaticFieldID/GetStaticMethodID
+来取得相应的jfieldID和jmethodID。
+
+```
+GetFieldID(jclass clazz,const char* name,const char* sign)
+方法的参数说明:
+clazz: 这个简单就是这个方法依赖的类对象的class对象
+name: 这个是这个字段的名称
+sign:这个是这个字段的签名
+(我们知道每个变量，每个方法都是有签名的)
+```
+
+上面代码中参数sign(签名)怎么来的，签名的格式是怎样的？
+
+### 5.1签名Sign问题
+
+#### 5.1.1　查看类中字段和签名
+
+可以用　javap -s JniTest.class　命令查看．descriptor：后就是签名．
+
+
+
+#### 5.1.2 java字段的签名规则
+
+| 数据类型 | 签名                                           |
+| -------- | ---------------------------------------------- |
+| boolean  | Z                                              |
+| byte     | B                                              |
+| char     | C                                              |
+| short    | S                                              |
+| int      | I                                              |
+| long     | J                                              |
+| float    | F                                              |
+| double   | D                                              |
+| void     | V                                              |
+| object   | L开头+类名+;如: Ljava/lang/String;             |
+| Array    | 以[开头，加数据类型签名．如:int[] 即可表示为[I |
+
+eg:
+
+Java代码:
+
+```
+import java.util.Date;
+
+public class HelloJni{
+	public int property;
+	public int function(int fu,Date date,int[] arr){
+		System.out.println("function");
+		return 0;
+	}
+	public native void testJni();
+}
+```
+
+JNI代码：
+
+```
+JNIEXPOR void Java_HelloJni_testJni(JNIEnv *env,jobject jobj){
+	jclass h_clz = (*env)->GetObjectClass(env,jobj);
+	//HelloJni.java:: **int** property -> I
+	jfieldID filedId_prop = (*env)-> GetFieldID(env,h_clz,"property","I");
+	//HelloJni.java::public int function(int fu,Date date,int[] arr) -> 参数:(ILjava/util/Date;[I)+返回值:I
+	JMethodID methodId_func = (*env)->GetMethodID(env,h_clz,"function","(ILjava/util/Date;[I)I");
+	(*env)->CallIntMethod(env,jobj,methodId_func,0L,NULL,NULL);
+}
+```
+
+
+
+### 5.2 JNI字符串访问
+
+```mermaid
+graph TB
+	java_String[Java String & UTF-16] -->|JNI|jstring[jstring & UTF-8]
+	jstring --> |GetStringChars|wchar[wchar_t * & UTF-16]
+	jstring --> |GetStringUTFChars|char[char* & UTF-8]
+```
+
+**注**
+
+- java内部使用的是utf-1616bit的编码方式
+- jni里面使用的utf-8unicode编码方式英文是1个字节，中文3个字节
+-  C/C++使用ascii编码，中文的编码方式GB2312编码中文2个字节
