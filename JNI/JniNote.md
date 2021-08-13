@@ -355,8 +355,150 @@ graph TB
 
 **注**
 
+<<<<<<< Updated upstream
 - java内部使用的是utf-1616bit的编码方式
 - jni里面使用的utf-8unicode编码方式英文是1个字节，中文3个字节
 - C/C++使用ascii编码，中文的编码方式GB2312编码中文2个字节
 
 但一般我们写代码的时候用不到中文字符
+=======
+- java内部使用的是utf-16 16bit的编码方式
+- jni里面使用的utf-8 unicode编码方式英文是1个字节，中文3个字节
+-  C/C++使用ascii编码，中文的编码方式GB2312编码中文2个字节
+
+
+
+代码示例：
+
+java 代码:
+
+```java
+public native static String sayHello(String text);
+
+```
+
+
+
+C/C++代码：
+
+```C/C++
+JNIEXPORT jstring JNICALL Java_JString_sayHello(JNIEnv *env,jclass jclz,jstring jstr){
+	const char * c_str = NULL;
+	char buf[128] = {0};
+	jboolean iscopy;
+	c_str = (*env)->GetStringUTFChars(env,jstr,&iscopy);
+	printf("iscopy:%d\n",iscopy);
+	//异常处理
+	if(c_str==NULL){
+		return NULL;
+	}
+	printf("c_str:%s \n",c_str);
+	sprintf(buf,"Hello,你好　%s",c_str);
+	printf("c_str:%s \n",buf);
+	//释放字符串: 
+	(*env)->ReleaseStringUTFChars(env,jstr,c_str);
+	return (*env)->NewStringUTF(env,buf);
+}
+```
+
+
+
+#### 5.2.1 释放字符串
+
+ 在调用**GetStringUTFChars**函数从JVM内部获取一个字符串之后，JVM内部会分配一块新的内存，用于存储源字符串的拷贝，以便本地代码访问和修改。即然有内存分配，用完之后马上释放是一个编程的好习惯。通过调用**ReleaseStringUTFChars**函数通知JVM这块内存已经不使用了，你可以清除了。注意：这两个函数是配对使用的，用了GetXXX就必须调用ReleaseXXX，而且这两个函数的命名也有规律，除了前面的Get和Release之外，后面的都一样。
+
+
+
+### 5.3  访问Java成员变量
+
+#### 5.3.1．非静态变量
+
+Java代码
+
+```java
+public int property;
+```
+
+
+
+Jni代码
+
+```
+JNIEXPORT void JNICALL Java_Hello_testField(JniEnv *env,jobject jobj){
+    //调用 GetObjectClass函数获取ClassField的Class引用
+	jclass claz = (*env)->GetObjectClass(env,jobj);
+	// 调用GetFieldID函数从Class引用中获取字段的ID（property是字段名，I
+是字段的签名）
+	jfieldID jfid = (*env)->GetFieldID(env,claz,"property","I");
+	// 调用GetIntField函数，传入实例对象和字段ID，获取属性的值
+	jint va = (*env)->GetIntField(env,jobj,jfid);
+	printf("va:%d",va);
+	//使用SetIntField函数修改这个值
+	(*env)->SetIntField(env,jobj,jfid,va+10086);
+}
+```
+
+
+
+#### 5.3.2.访问静态变量
+
+访问静态变量和实例变量不同的是，获取字段ID使用GetStaticFieldID，获取和修改字段的值使用Get/SetStaticXXXField系列函数.eg:
+
+```c
+num=(*env)->GetStaticIntField(env,clazz,fid);
+//4.修改静态变量num的值
+(*env)->SetStaticIntField(env,clazz,fid,80);
+```
+
+
+
+### 5.4访问Java中的函数
+
+Java成员函数一般有两类：静态和非静态。所以在JNI中对这两种不同的类型就有了两种不太相同的调用方法，这两种不同类型虽然他们的调用方式有些许不同，但是，他们的实质上是一样的。只是调用的接口的名字有区别，而对于流程是没有区别的。
+
+
+
+java代码:
+
+```java
+private static void callStaticMethod(String str,int i){
+
+    System.out.format("ClassMethod::callStaticMethodcalled!->str=%s,"+"i=%d\n",str,i);
+}
+```
+
+
+
+JNI代码:
+
+```c
+JNIEXPORT void JNICALL Java_JniTest_callJavaStaticMethod(
+    JNIEnv *env, jobject jobje){
+    //从 classpath路径下搜索ClassMethod这个类，并返回该类的Class对象
+    jclass clz = (*env)->FindClass(env,"ClassMethod");
+    if(clz == NULL){
+        printf("clz is null");
+        return;
+    }
+    // 从clazz类中查找callStaticMethod方法
+    jmethodID jmeid =
+        (*env)->GetStaticMethodID(env,clz,"callStaticMethod",
+                                  "(Ljava/lang/String;I)V");
+    if(jmeid ==NULL){
+        printf("jmeid is null");
+        return;
+    }
+    
+    jstring arg = (*env)->NewStringUTF(env,"我是静态类");
+    //调用clazz类的callStaticMethod静态方法
+    (*env)->CallStaticVoidMethod(env,clz,jmeid,arg,100);
+    (*env)->DeleteLocalRef(env,clz);
+    (*env)->DeleteLocalRef(env,arg);
+}
+```
+
+
+
+
+
+>>>>>>> Stashed changes
