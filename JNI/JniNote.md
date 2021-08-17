@@ -355,16 +355,9 @@ graph TB
 
 **注**
 
-<<<<<<< Updated upstream
 - java内部使用的是utf-1616bit的编码方式
 - jni里面使用的utf-8unicode编码方式英文是1个字节，中文3个字节
-- C/C++使用ascii编码，中文的编码方式GB2312编码中文2个字节
-
-但一般我们写代码的时候用不到中文字符
-=======
-- java内部使用的是utf-16 16bit的编码方式
-- jni里面使用的utf-8 unicode编码方式英文是1个字节，中文3个字节
--  C/C++使用ascii编码，中文的编码方式GB2312编码中文2个字节
+- C/C++使用ascii编码，中文的编码方式GB2312编码中文2个字节,但一般我们写代码的时候用不到中文字符
 
 
 
@@ -496,9 +489,3 @@ JNIEXPORT void JNICALL Java_JniTest_callJavaStaticMethod(
     (*env)->DeleteLocalRef(env,arg);
 }
 ```
-
-
-
-
-
->>>>>>> Stashed changes
