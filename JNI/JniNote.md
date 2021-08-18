@@ -114,7 +114,7 @@ add_library(jinInterface SHARED ${LIB_SRC})
 动态注册则意味着方法名可以不用这么长，会动态将java层与native方法一一绑定.
 
 ```
-//Java:
+//Java:ll
 native void dynamicNative();
 native String dynamicNative(int i);
 //C++：
