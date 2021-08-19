@@ -1,0 +1,1 @@
+/usr/bin/cc  -fPIC   -shared -Wl,-soname,libdrLib.so -o libdrLib.so CMakeFiles/drLib.dir/JniTest.c.o 

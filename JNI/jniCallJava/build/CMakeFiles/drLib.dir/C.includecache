@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/jniCallJava/JniTest.c
+JniTest.h
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/jniCallJava/JniTest.h
+
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/jniCallJava/JniTest.h
+jni.h
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/jniCallJava/jni.h
+
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/jniCallJava/jni.h
+stdio.h
+-
+stdarg.h
+-
+jni_md.h
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/jniCallJava/jni_md.h
+
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/jniCallJava/jni_md.h
+

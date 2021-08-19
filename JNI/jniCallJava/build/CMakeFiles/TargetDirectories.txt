@@ -1,0 +1,3 @@
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/jniCallJava/build/CMakeFiles/rebuild_cache.dir
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/jniCallJava/build/CMakeFiles/edit_cache.dir
+/home/hyk/AndroidStudioProjects/AndroidNdkStudy/JNI/jniCallJava/build/CMakeFiles/drLib.dir
