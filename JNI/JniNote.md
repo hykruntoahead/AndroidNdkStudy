@@ -489,3 +489,5 @@ JNIEXPORT void JNICALL Java_JniTest_callJavaStaticMethod(
     (*env)->DeleteLocalRef(env,arg);
 }
 ```
+
+[代码实例](https://github.com/hykruntoahead/AndroidNdkStudy/tree/master/JNI/jniCallJava)
